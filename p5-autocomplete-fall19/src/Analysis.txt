@@ -1,0 +1,92 @@
+1. Run the program BenchmarkForAutocomplete and copy/paste the results into the analysis.txt file in the appropriate location.
+      threeletterwords.txt:
+
+      init time: 0.008276	for BruteAutocomplete
+      init time: 0.006411	for BinarySearchAutocomplete
+      init time: 0.1324	for HashListAutocomplete
+      search	size	#match	BruteAutoc	BinarySear	HashListAu
+      	17576	50	0.00495137	0.01106329	0.00007263
+      	17576	50	0.00087479	0.00297890	0.00001033
+      a	676	50	0.00055814	0.00030187	0.00000698
+      a	676	50	0.00056792	0.00029802	0.00000636
+      b	676	50	0.00067417	0.00037358	0.00000704
+      c	676	50	0.00051080	0.00028505	0.00000654
+      g	676	50	0.00057000	0.00029248	0.00000686
+      ga	26	50	0.00042970	0.00006072	0.00000580
+      go	26	50	0.00045492	0.00007088	0.00000624
+      gu	26	50	0.00047422	0.00011066	0.00001615
+      x	676	50	0.00053814	0.00029365	0.00000665
+      y	676	50	0.00098796	0.00047726	0.00000755
+      z	676	50	0.00072833	0.00077226	0.00013311
+      aa	26	50	0.00056958	0.00007278	0.00000611
+      az	26	50	0.00058546	0.00008638	0.00000735
+      za	26	50	0.00046624	0.00003856	0.00000597
+      zz	26	50	0.00060828	0.00005303	0.00000682
+
+      fourletterwords.txt:
+
+      init time: 0.1584	for BruteAutocomplete
+      init time: 0.05387	for BinarySearchAutocomplete
+      init time: 1.299	for HashListAutocomplete
+      search	size	#match	BruteAutoc	BinarySear	HashListAu
+      	456976	50	0.01398552	0.03545313	0.00007955
+      	456976	50	0.00752793	0.00577984	0.00002439
+      a	17576	50	0.00921829	0.00055784	0.00001047
+      a	17576	50	0.00860211	0.00050171	0.00000947
+      b	17576	50	0.00779616	0.00034604	0.00000856
+      c	17576	50	0.00515279	0.00029761	0.00000739
+      g	17576	50	0.00668171	0.00049375	0.00000880
+      ga	676	50	0.00476560	0.00009688	0.00000744
+      go	676	50	0.00476828	0.00006485	0.00000741
+      gu	676	50	0.00508310	0.00007162	0.00000794
+      x	17576	50	0.00859414	0.00043165	0.00001064
+      y	17576	50	0.00688712	0.00040160	0.00003089
+      z	17576	50	0.00681999	0.00103339	0.00001400
+      aa	676	50	0.00464193	0.00006704	0.00000778
+      az	676	50	0.00640099	0.00007521	0.00000731
+      za	676	50	0.00463535	0.00006454	0.00000762
+      zz	676	50	0.00682352	0.00009637	0.00000931
+
+
+
+2. Run the program again for alexa.txt with  #matches = 10000, paste the results, and then explain to what extent the # matches affects
+the runtime. The # matches, matchSize, is specified in the method runAM (for run all matches)
+
+alexa.txt with matches = 10000:
+init time: 0.5553	for BruteAutocomplete
+init time: 1.914	for BinarySearchAutocomplete
+init time: 14.00	for HashListAutocomplete
+search	size	#match	BruteAutoc	BinarySear	HashListAu
+	1000000	10000	0.03491412	0.15808826	0.00009402
+	1000000	10000	0.02364088	0.11402986	0.00001891
+a	69464	10000	0.02319183	0.02066716	0.00002004
+a	69464	10000	0.02053993	0.02180504	0.00001150
+b	56037	10000	0.02581259	0.01978332	0.00001184
+c	65842	10000	0.01899614	0.02113904	0.00001620
+g	37792	10000	0.03479514	0.01775695	0.00001564
+ga	6664	10000	0.02090386	0.00357428	0.00001879
+go	6953	10000	0.01863225	0.00367135	0.00001002
+gu	2782	10000	0.03479798	0.00360423	0.00001593
+x	6717	10000	0.01869507	0.00339672	0.00000945
+y	16765	10000	0.01997974	0.00867727	0.00001121
+z	8780	10000	0.01813560	0.00509817	0.00001292
+aa	718	10000	0.01842688	0.00033516	0.00001480
+az	889	10000	0.01324185	0.00040662	0.00000743
+za	1718	10000	0.02735365	0.00175162	0.00005169
+zz	162	10000	0.02095416	0.00010088	0.00000851
+
+According to my running of the benchmark, the increase in match number resulted in the runtimes for Brute Autocomplete and Binary Search Autocomplete to
+nearly triple. The runtime for HashList increased as well, but it did not increase nearly as much as Brute Autcomplete and Binary Search.
+It seems to me as if the increase in matches increased the Hash runtime by half of the original runtime with 50 matches.
+
+3. Explain why the last for loop in BruteAutocomplete.topMatches uses a LinkedList (and not an ArrayList) AND why the PriorityQueue
+uses Comparator.comparing(Term::getWeight) to get the top k heaviest matches.
+
+The last loop in BruteAutocomplete.topMatches uses a LinkedList and not an ArrayList because BruteAutocomplete does not utilize the specific
+indices of the appended items to the LinkedList. If they wanted to access a certain index, they would have used an array instead.
+Comparator.comparing(Term::getWeight) helps the program find the smallest element (minPQ) and remove it from the priorityQueue.
+The comparator is comparing each term by their weight, and thus organizing the priority  queue by weight, which is want we want.
+
+4. Explain why HashListAutocomplete uses more memory than the other Autocomplete implementations. Be brief.
+
+HashMaps store data into multiple singly-linked lists of entries, which include a large amount of information in a single entry.
